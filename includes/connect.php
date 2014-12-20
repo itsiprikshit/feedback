@@ -3,8 +3,10 @@
 	require("config.php");
     $conn = @mysql_connect(mysql_host, mysql_user, mysql_pass);
 
-	if (!$conn)
+	if (!$conn){
+            echo 'Incorrect Credentials<br />';
 			die(conn_error);
+    }
     else
     {
         if(!@mysql_select_db(mysql_db))
@@ -15,7 +17,7 @@
             if(!$create_db)
                 die('Could not create database.');
             
-            $sql_admin = "CREATE TABLE admin("."admin varchar(30),
+            $sql_admin = "CREATE TABLE admin("."admin_id varchar(30),
                                              "."admin_password varchar(25));";
                                                    
             $sql_student = "CREATE TABLE student("."r_no INT(5) PRIMARY KEY,
@@ -72,80 +74,12 @@
             $create_table_questions = mysql_query( $sql_questions, $conn );
             $create_table_teacher_rep = mysql_query( $sql_teacher_rep, $conn );
             
+            
             if(!$create_table_student && !$create_table_admin && !$create_table_strength && !$create_table_course_list && !$create_table_courses && !$create_table_report && !$create_table_teacher && !$create_table_questions)
-                die('Could not create table.');
-                
-            $query_courses = "INSERT INTO `courses` (`c_id`, `c_name`, `dept`, `sem`) VALUES
-                                    ('CS-211', 'Discrete Structure', 'CSE', 3),
-                                    ('CS-212', 'Object oriented Paradigm', 'CSE', 3),
-                                    ('CS-213', 'Computer Graphics', 'CSE', 3),
-                                    ('CS-214', 'Microprocessors', 'CSE', 3),
-                                    ('CS-216', 'TOC', 'CSE', 3),
-                                    ('CS-311', 'Modelling & Simulation', 'CSE', 5),
-                                    ('CS-312', 'Analysis & Design of Algorithm', 'CSE', 5),
-                                    ('CS-313', 'DBMS', 'CSE', 5),
-                                    ('CS-314', 'Compiler Design', 'CSE', 5),
-                                    ('CS-315', 'System Software', 'CSE', 5),
-                                    ('CS-410', 'Information Security', 'CSE', 7),
-                                    ('CS-412', 'Advanced OS', 'CSE', 7),
-                                    ('CS-413', 'Advance Computer Architecture', 'CSE', 7),
-                                    ('CS-416', 'Artificial Intelligence', 'CSE', 7),
-                                    ('EC-211', 'Analog Electronics', 'ECE', 3),
-                                    ('EC-212', 'Digital Electronics', 'ECE', 3),
-                                    ('EC-213', 'Communication Theory', 'ECE', 3),
-                                    ('EC-214', 'EFT', 'ECE', 3),
-                                    ('EC-215', 'Network Analysis ', 'ECE', 3),
-                                    ('EC-311', 'Microprocessor', 'ECE', 5),
-                                    ('EC-312', 'Digital Communication', 'ECE', 5),
-                                    ('EC-313', 'Antenna & Wave', 'ECE', 5),
-                                    ('EC-314', 'Device Modelling', 'ECE', 5),
-                                    ('EC-315', 'Signal & Waves', 'ECE', 5),
-                                    ('EC-411', 'Data Communication', 'ECE', 7),
-                                    ('EC-412', 'Digital Signal processing', 'ECE', 7),
-                                    ('EC-414', 'Optical Fibres', 'ECE', 7),
-                                    ('EC-416', 'Control System', 'ECE', 7),
-                                    ('ME-211', 'Thermodynamics', 'ME', 3),
-                                    ('ME-212', 'Manufacturing', 'ME', 3),
-                                    ('ME-213', 'Metallurgy', 'ME', 3),
-                                    ('ME-214', 'Mechanics of Materials', 'ME', 3),
-                                    ('ME-311', 'Thermal Engineering', 'ME', 5),
-                                    ('ME-312', 'Machine Design', 'ME', 5),
-                                    ('ME-313', 'Measurement', 'ME', 5),
-                                    ('ME-314', 'Dynamics of Materials', 'ME', 5),
-                                    ('ME-411', 'Manufacturing Processes', 'ME', 7),
-                                    ('ME-413', 'Fluid Mechanics', 'ME', 7),
-                                    ('ME-414', 'Heat Transfer', 'ME', 7),
-                                    ('ME-415', 'Numerical Analysis', 'ME', 7)";
-            
-            $query_questions = "INSERT INTO `questions` (`s_no`, `que1`, `que2`, `que3`, `que4`, `que5`) VALUES
-                                (1, 'Regularity and Punctuality.', 'Knowledge of the subject.', 'Communication skills and interaction with students.', 'Marking.', 'Coverage of syllabus.');";                        
-            
-            $query_faculty = "INSERT INTO `teacher` (`t_id`, `t_name`, `t_password`, `t_branch`, `c_id1`, `c_id2`, `c_id3`) VALUES
-                                                    (20301, 'Rajesh Sharma', 'rajesh', 'ME', 'ME-212', 'ME-312', 'ME-411'),
-                                                    (20302, 'Sidharth Vashishth', 'sidharth', 'ME', 'ME-211', '', 'ME-413'),
-                                                    (20303, 'Mohit Pant', 'mohit', 'ME', 'ME-214', 'ME-313', 'ME-414'),
-                                                    (20304, 'Sant Ram', 'sant', 'ME', 'ME-213', 'ME-314', ''),
-                                                    (20305, 'Varun Sharma', 'varun', 'ME', '', 'ME-311', 'ME-415'),
-                                                    (20401, 'Amita Nandal', 'amita', 'ECE', 'EC-212', 'EC-311', 'EC-411'),
-                                                    (20402, 'Gagnesh Kumar', 'gagnesh', 'ECE', 'EC-213', 'EC-313', 'EC-414'),
-                                                    (20403, 'Daniel', 'daniel', 'ECE', 'EC-215', 'EC-314', 'EC-412'),
-                                                    (20404, 'Gargi Khanna', 'gargi', 'ECE', 'EC-214', 'EC-312', ''),
-                                                    (20405, 'Ashwani Rana', 'ashwani', 'ECE', 'EC-211', 'EC-315', 'EC-416'),
-                                                    (20501, 'Nitin Gupta', 'nitin', 'CSE', 'CS-214', 'CS-313', 'CS-412'),
-                                                    (20502, 'Triveni Lal Pal', 'triveni', 'CSE', 'CS-216', 'CS-315', ''),
-                                                    (20503, 'Menka Goswami', 'menka', 'CSE', 'CS-213', 'CS-311', 'CS-416'),
-                                                    (20504, 'Rajeev Bhardwaj', 'rajeev', 'CSE', 'CS-211', 'CS-312', 'CS-413'),
-                                                    (20505, 'Naveen Chauhan', 'naveen', 'CSE', 'CS-212', 'CS-314', 'CS-410');";
-            
-            $query_admin = "INSERT INTO `admin` (`admin`, `admin_password`) VALUES
-                                                ('prikshit', 'root');";
-                                                
-            mysql_query($query_courses);
-            mysql_query($query_questions);
-            mysql_query($query_faculty);
-            mysql_query($query_admin);
+                die('Could not create tables.');
         }
-        else
+        else{
             mysql_select_db(mysql_db);
+        }
     }
 ?>
