@@ -39,8 +39,7 @@
                                         die();
                                     }
                                     else{
-                                        echo '<br /><center>Your new password has been emailed to you.<center>';
-                                        //echo '<br /><center>Email not delievered.</center>';
+                                        echo '<br /><center>Email not delievered.</center>';
                                         die();
                                     }
                                 }
