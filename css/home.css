@@ -1,0 +1,46 @@
+@font-face{
+    font-family:'Fontin';
+    src:url('../fonts/fontin/Fontin-Regular.otf'),
+        url('../fonts/fontin/Fontin_Sans_B.otf'),
+        url('../fonts/fontin/Fontin_Sans_I.otf'),
+        url('../fonts/fontin/Fontin_Sans_R.otf');
+}
+
+* 
+{
+    margin:0; 
+    padding:0
+}
+
+body{
+    height:100%;
+    width:100%;
+    overflow:auto;
+    background:#d8d7d7;
+}
+
+#container{
+    margin-left:auto;
+    margin-right:auto;
+    position:relative;
+    width:80%;
+    height:80%;
+    background:#ccddd8;
+    top:15%;  
+    overflow:auto;
+    color:#000;
+    font-family:Calibri;
+    /*border-right:solid;*/
+    /*border-left:solid;*/
+    box-shadow: 4px 0px 6px rgba(0,0,0,1),
+                -4px 0px 6px rgba(0,0,0,1);
+}
+
+#container a{
+    color:#0a3bf8;
+}
+
+.input{
+    color:#fff;
+    background:#494848;
+}

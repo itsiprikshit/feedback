@@ -1,0 +1,62 @@
+@font-face{
+    font-family:'Fontin';
+    src:url('../fonts/fontin/Fontin-Regular.otf'),
+        url('../fonts/fontin/Fontin_Sans_B.otf'),
+        url('../fonts/fontin/Fontin_Sans_I.otf'),
+        url('../fonts/fontin/Fontin_Sans_R.otf');
+}
+
+* 
+{
+    margin:0; 
+    padding:0;
+}
+
+
+@font-face{
+    font-family:'Fontin';
+    src:url('../fonts/fontin/Fontin-Regular.otf'),
+        url('../fonts/fontin/Fontin_Sans_B.otf'),
+        url('../fonts/fontin/Fontin_Sans_I.otf'),
+        url('../fonts/fontin/Fontin_Sans_R.otf');
+}
+
+#nav-bar{
+    position:fixed;
+    top:0;
+    width:100%;
+    height:15%;
+    background:#494848;
+    z-index:+1;
+    box-shadow:0px 2px 4px rgba(0,0,0,1);
+    text-align:center;
+}
+
+#nav-bar ul{
+    width:230px;
+    margin-top:2%;
+    margin-left:auto;
+    margin-right:auto;
+    list-style:none;
+}
+
+#nav-bar ul li{
+    padding:5.2%;
+    float:left;
+    text-align:center;
+}
+
+#nav-bar a{
+    color:#dbdbdb;
+    font-family:Fontin;
+    font-size:1em;
+    font-weight:800;
+    text-decoration:none;
+    position:relative;
+    opacity:.7;
+}
+
+#nav-bar a:hover{
+    text-decoration:none;
+    opacity:1;
+}
