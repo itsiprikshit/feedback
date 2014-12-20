@@ -81,7 +81,7 @@
                                                         http://localhost/feedback/confirm_mail.php?r_no=$r_no&token=$token
                                                         ";
                                             if($query_run = mysql_query($query)){
-                                                //mail($email,"Confirm Email",$message,"From: DoNotReply@feedback.com");
+                                                mail($email,"Confirm Email",$message,"From: DoNotReply@feedback.com");
                                                 echo '<br /><center>Registration Complete, Confirm your email.</center>';
                                                 die();
                                                 //header('Location: index.php');
