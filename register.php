@@ -78,13 +78,16 @@
                                             echo '<br /><center>Your password : '.$password.'<center>';
                                             $message = "Confirm Your Email.
                                                         Click the link below to confirm.
-                                                        http://localhost/feedback/confirm_mail.php?r_no=$r_no&token=$token
+                                                        http://feedback-silverlyn.rhcloud.com/confirm_mail.php?r_no=$r_no&token=$token
                                                         ";
                                             if($query_run = mysql_query($query)){
-                                                mail($email,"Confirm Email",$message,"From: DoNotReply@feedback.com");
-                                                echo '<br /><center>Registration Complete, Confirm your email.</center>';
-                                                die();
-                                                //header('Location: index.php');
+                                                if(mail($email,"Confirm Email",$message,"From: DoNotReply@feedback.com")){
+                                                    echo '<br /><center>Registration Complete, Confirm your email.</center>';
+                                                    die();
+                                                }
+                                                else{
+                                                    echo '<br /><center>Email not sent.</center>';
+                                                }
                                             }
                                         }
                                     }
