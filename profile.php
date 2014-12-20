@@ -65,7 +65,7 @@
                     echo '<br /><center><span style="color:red;">*You must enter a roll number.</span></center>';
             }
             
-        if($query_num_rows == 0){
+        if($query_num_rows == 0 || $user_row['confirm'] == 0){
             echo '<br /><center><form action="'.htmlspecialchars($current_file) .'" method="post">
                                     Roll no<span style="margin-left:17px">:<input type="text" name="r_no" />
                                     <input type="submit" value="View Profile"></input>
