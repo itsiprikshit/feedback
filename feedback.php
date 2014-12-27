@@ -75,7 +75,7 @@
                                         echo '<center><a href="evaluate.php?c='.$c_value.'&c_id='.$c_id.'">Fill feedback</a></center>';
                                     }
                                     else{
-                                        echo '<center><a href="">Feedback Filled</a></center>';
+                                        echo '<center><a href=""><span style="color:red;">Feedback Filled</span></a></center>';
                                     }
                                 }
                         }
