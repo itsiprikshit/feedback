@@ -89,15 +89,15 @@
                                             
                                                     try {
                                                         $message = array(
-                                                            'html' => '<p>Example HTML content</p>',
-                                                            'text' => 'Example text content',
-                                                            'subject' => 'example subject',
-                                                            'from_email' => 'feedback@gmail.com',
+                                                            'html' => '<p>test html</p>',
+                                                            'text' => 'test text',
+                                                            'subject' => 'test sub',
+                                                            'from_email' => 'DoNotReply@feedback.com',
                                                             'from_name' => 'feedback',
                                                             'to' => array(
                                                                 array(
-                                                                    'email' => 'prikshit911@gmail.com',
-                                                                    'name' => 'Prikshit',
+                                                                    'email' => $email,
+                                                                    'name' => $s_name,
                                                                     'type' => 'to'
                                                                 )
                                                             ),
@@ -165,12 +165,15 @@
                                                         $send_at = 'example send_at';
                                                         $result = $mandrill->messages->send($message);
                                                         print_r($result);
+                                                        echo '<br /><center>Registration Complete, Confirm your email.</center>';
+                                                        die();
                                                        
                                                     } catch(Mandrill_Error $e) {
                                                         // Mandrill errors are thrown as exceptions
                                                         echo 'A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage();
                                                         // A mandrill error occurred: Mandrill_Unknown_Subaccount - No subaccount exists with the id 'customer-123'
                                                         throw $e;
+                                                        echo '<br /><center>Email not sent.</center>';
                                                     }
 
                                                 //if(mail($email,"Confirm Email",$message,"From: DoNotReply@feedback.com")){
