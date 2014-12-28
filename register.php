@@ -14,8 +14,8 @@
     <div id="container">
         <?php
         
-    require_once 'mandrill-api-php/src/Mandrill.php'; 
-    $mandrill = new Mandrill('v5POumc7NJ7pBGRal5MeTw');
+            require_once 'mandrill-api-php/src/Mandrill.php'; 
+            $mandrill = new Mandrill('v5POumc7NJ7pBGRal5MeTw');
 
             if(!loggedin()) 
             {
@@ -81,10 +81,10 @@
                                             $query .= "VALUES('{$r_no}','{$s_name}','{$dept}','{$sem}','{$password}','{$email}',0,'{$token}',0,0,0,0,0,0)";
                                             
                                             echo '<br /><center>Your password : '.$password.'<center>';
-                                            $message = "Confirm Your Email.
-                                                        Click the link below to confirm.
-                                                        http://feedback-silverlyn.rhcloud.com/confirm_mail.php?r_no=$r_no&token=$token
-                                                        ";
+                                            //$message = "Confirm Your Email.
+                                            //            Click the link below to confirm.
+                                            //            http://feedback-silverlyn.rhcloud.com/confirm_mail.php?r_no=$r_no&token=$token
+                                            //            ";
                                             if($query_run = mysql_query($query)){
                                             
                                                     try {
