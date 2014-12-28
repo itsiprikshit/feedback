@@ -3,9 +3,6 @@
     include_once 'includes/header.php';
     include_once 'includes/footer.php';
     
-    require_once 'mandrill/src/Mandrill.php'; 
-    $mandrill = new Mandrill('v5POumc7NJ7pBGRal5MeTw');
-
 ?>
 
 <html>
@@ -16,6 +13,10 @@
 <body>
     <div id="container">
         <?php
+        
+    require_once 'mandrill-api-php/src/Mandrill.php'; 
+    $mandrill = new Mandrill('v5POumc7NJ7pBGRal5MeTw');
+
             if(!loggedin()) 
             {
                 if(isset($_POST['s_name']) && isset($_POST['password']) && isset($_POST['email']) && isset($_POST['r_no']) && isset($_POST['sem']))
