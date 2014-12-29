@@ -92,7 +92,7 @@
                                                             'html' => '<p>test html</p>',
                                                             'text' => 'test text',
                                                             'subject' => 'test sub',
-                                                            'from_email' => 'DoNotReply@feedback.com',
+                                                            'from_email' => 'DoNotReply@feedback-silverlyn.rhcloud.com',
                                                             'from_name' => 'feedback',
                                                             'to' => array(
                                                                 array(
