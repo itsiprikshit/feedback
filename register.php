@@ -82,7 +82,7 @@
                                             
                                             echo '<br /><center>Your password : '.$password.'<center>';
                                             
-                                            $link = 'Click the link below to confirm your email.<br />';
+                                            $link = 'Click the link to confirm your email. ';
                                             $link .= 'http://feedback-silverlyn.rhcloud.com/confirm_mail.php?r_no='.$r_no.'&token='.$token;
                                             
                                             if($query_run = mysql_query($query)){
@@ -120,25 +120,15 @@
                                                         $ip_pool = 'Main Pool';
                                                         $send_at = 'example send_at';
                                                         $result = $mandrill->messages->send($message, $async, $ip_pool);
-                                                        print_r($result);
+                                                        //print_r($result);
                                                         echo '<br /><center>Registration Complete, Confirm your email.</center>';
                                                         die();
                                                        
                                                     } catch(Mandrill_Error $e) {
-                                                        // Mandrill errors are thrown as exceptions
-                                                        echo 'A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage();
-                                                        // A mandrill error occurred: Mandrill_Unknown_Subaccount - No subaccount exists with the id 'customer-123'
+                                                        //echo 'A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage();
                                                         throw $e;
-                                                        echo '<br /><center>Email not sent.</center>';
+                                                        echo '<br /><center>Email not sent. Registration incomplete.</center>';
                                                     }
-
-                                                //if(mail($email,"Confirm Email",$message,"From: DoNotReply@feedback.com")){
-                                                //    echo '<br /><center>Registration Complete, Confirm your email.</center>';
-                                                //    die();
-                                                //}
-                                                //else{
-                                                //    echo '<br /><center>Email not sent.</center>';
-                                                //}
                                             }
                                         }
                                     }

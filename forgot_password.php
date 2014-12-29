@@ -17,6 +17,9 @@
     <div id="container">
     
         <?php
+            require_once 'mandrill-api-php/src/Mandrill.php'; 
+            $mandrill = new Mandrill('v5POumc7NJ7pBGRal5MeTw');
+        
             if(!loggedin()){
                     if(isset($_POST['email'])){
                         $email = $_POST['email'];
@@ -71,14 +74,12 @@
                                                         $ip_pool = 'Main Pool';
                                                         $send_at = 'example send_at';
                                                         $result = $mandrill->messages->send($message, $async, $ip_pool);
-                                                        print_r($result);
+                                                        //print_r($result);
                                                         echo '<br /><center>Your new password has been emailed to you.<center>';
                                                         die();
                                                        
                                                     } catch(Mandrill_Error $e) {
-                                                        // Mandrill errors are thrown as exceptions
-                                                        echo 'A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage();
-                                                        // A mandrill error occurred: Mandrill_Unknown_Subaccount - No subaccount exists with the id 'customer-123'
+                                                        //echo 'A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage();
                                                         throw $e;
                                                         echo '<br /><center>Email not sent.</center>';
                                                     }
