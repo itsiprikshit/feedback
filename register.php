@@ -82,9 +82,9 @@
                                             
                                             echo '<br /><center>Your password : '.$password.'<center>';
                                             
-                                            $link = 'Click the link below to confirm your email.
-                                                     http://feedback-silverlyn.rhcloud.com/confirm_mail.php?r_no=$r_no&token=$token';
-                                            echo $link;
+                                            $link = 'Click the link below to confirm your email.<br />';
+                                            $link .= 'http://feedback-silverlyn.rhcloud.com/confirm_mail.php?r_no='.$r_no.'&token='.$token;
+                                            
                                             if($query_run = mysql_query($query)){
                                             
                                                     try {
