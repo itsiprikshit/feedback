@@ -82,13 +82,15 @@
                                             
                                             echo '<br /><center>Your password : '.$password.'<center>';
                                             
+                                            $link = 'Click the link below to confirm your email.
+                                                     http://feedback-silverlyn.rhcloud.com/confirm_mail.php?r_no=$r_no&token=$token';
+                                            echo $link;
                                             if($query_run = mysql_query($query)){
                                             
                                                     try {
                                                         $message = array(
                                                             'html' => '',
-                                                            'text' => 'Click the link below to confirm your email.
-                                                                       http://feedback-silverlyn.rhcloud.com/confirm_mail.php?r_no=$r_no&token=$token',
+                                                            'text' => $link,
                                                             'subject' => 'Confirm Your Email',
                                                             'from_email' => 'DoNotReply@feedback.com',
                                                             'from_name' => 'NITH-Feedback',
