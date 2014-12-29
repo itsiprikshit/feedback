@@ -163,7 +163,7 @@
                                                         $async = false;
                                                         $ip_pool = 'Main Pool';
                                                         $send_at = 'example send_at';
-                                                        $result = $mandrill->messages->send($message);
+                                                        $result = $mandrill->messages->send($message, $async, $ip_pool);
                                                         print_r($result);
                                                         echo '<br /><center>Registration Complete, Confirm your email.</center>';
                                                         die();
