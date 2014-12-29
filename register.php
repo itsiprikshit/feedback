@@ -81,19 +81,17 @@
                                             $query .= "VALUES('{$r_no}','{$s_name}','{$dept}','{$sem}','{$password}','{$email}',0,'{$token}',0,0,0,0,0,0)";
                                             
                                             echo '<br /><center>Your password : '.$password.'<center>';
-                                            //$message = "Confirm Your Email.
-                                            //            Click the link below to confirm.
-                                            //            http://feedback-silverlyn.rhcloud.com/confirm_mail.php?r_no=$r_no&token=$token
-                                            //            ";
+                                            
                                             if($query_run = mysql_query($query)){
                                             
                                                     try {
                                                         $message = array(
-                                                            'html' => '<p>test html</p>',
-                                                            'text' => 'test text',
-                                                            'subject' => 'test sub',
+                                                            'html' => '',
+                                                            'text' => 'Click the link below to confirm your email.
+                                                                       http://feedback-silverlyn.rhcloud.com/confirm_mail.php?r_no=$r_no&token=$token',
+                                                            'subject' => 'Confirm Your Email',
                                                             'from_email' => 'DoNotReply@feedback.com',
-                                                            'from_name' => 'feedback',
+                                                            'from_name' => 'NITH-Feedback',
                                                             'to' => array(
                                                                 array(
                                                                     'email' => $email,
