@@ -9,13 +9,12 @@
     
     <div id="container">
         <?php 
+ 
             if(!loggedin()){
                 //echo '<br /><center><a href="login.php"> Login first!!! </a></center>';
                 header('Location: index.php');
             }
             elseif(isset($_SESSION['student_id'])){
-                
-           
                             
                 if(isset($_POST['op1']) && isset($_POST['op2']) && isset($_POST['op3']) && isset($_POST['op4']) && isset($_POST['op5']) && isset($_GET['c_id']) && isset($_GET['c'])){
                 
@@ -25,15 +24,13 @@
                     $op3 = $_POST['op3'];
                     $op4 = $_POST['op4'];
                     $op5 = $_POST['op5'];
-                    $c_id = $_GET['c_id'];
-                    $c_value = $_GET['c'];
-                    
-                    //$c_value = encrypt_decrypt('decrypt', $c_value);
-                    //$c_id = encrypt_decrypt('decrypt', $c_id);
+                    $c_id_enc = $_GET['c_id'];
+                    $c_value_enc = $_GET['c'];
+                    $c_id = base64_decode(str_pad(strtr($c_id_enc, '-_', '+/'), strlen($c_id_enc) % 4, '=', STR_PAD_RIGHT));
+                    $c_value = base64_decode(str_pad(strtr($c_value_enc, '-_', '+/'), strlen($c_value_enc) % 4, '=', STR_PAD_RIGHT));
                     
                     $user_row = mysql_fetch_assoc(mysql_query("SELECT `t_id` FROM teacher WHERE (`c_id1`='".$c_id."' OR `c_id2`='".$c_id."' OR `c_id2`='".$c_id."')"));
                     $t_id = $user_row['t_id'];
-                    //$c_value = encrypt_decrypt('decrypt', $c_value_enc);
                     
                     $query = "SELECT * FROM `report` WHERE `c_id`='".$c_id."'";
                     if($query_run = mysql_query($query)){
@@ -46,7 +43,6 @@
                             
                             //Updating current course status
                             
-                            $c_value = $_GET['c'];
                             $query = "UPDATE `student` SET `c{$c_value}` = 1 WHERE `r_no`='".mysql_real_escape_string($_SESSION['student_id'])."'"; 
                             $query_run = mysql_query($query);
                         }
@@ -105,78 +101,95 @@
                 else{
                 
                 //Displaying Form
-				$c_value = $_GET['c'];
-				$query_check = "SELECT * FROM `student` WHERE `r_no`='".mysql_real_escape_string($_SESSION['student_id'])."'";
-				$query_run_check = mysql_query($query_check);
-				$user_row_check = mysql_fetch_assoc($query_run_check);
-				$c_val_check = $user_row_check['c'.$c_value];
+                if(isset($_GET['c_id']) && isset($_GET['c']) && !empty($_GET['c_id']) && !empty($_GET['c'])){
+				    $c_id_enc = $_GET['c_id'];
+                    $c_value_enc = $_GET['c'];
+                    //echo $c_id_enc;
+                    //echo '<br />';
+                    //echo $c_value_enc;
+                    $c_id = base64_decode(str_pad(strtr($c_id_enc, '-_', '+/'), strlen($c_id_enc) % 4, '=', STR_PAD_RIGHT));
+                    $c_value = base64_decode(str_pad(strtr($c_value_enc, '-_', '+/'), strlen($c_value_enc) % 4, '=', STR_PAD_RIGHT));
+                    //echo '<br /><br />';
+                    //echo $c_id;
+                    //echo '<br />';
+                    //echo $c_value;
+                    
+				    $query_check = "SELECT * FROM `student` WHERE `r_no`='".mysql_real_escape_string($_SESSION['student_id'])."'";
+				    $query_run_check = mysql_query($query_check);
+				    $user_row_check = mysql_fetch_assoc($query_run_check);
+				    $c_val_check = $user_row_check['c'.$c_value];
                 
-				if($c_val_check == 0){
-					$query = "SELECT * FROM `questions`";
-						if($query_run = mysql_query($query))
-						{
-							$query_num_rows = mysql_num_rows($query_run);
+				    if($c_val_check == 0){
+					    $query = "SELECT * FROM `questions`";
+						    if($query_run = mysql_query($query))
+						    {
+							    $query_num_rows = mysql_num_rows($query_run);
 							
-							if($query_num_rows == 1 ){
-								$user_row = mysql_fetch_assoc($query_run);
-								$que1 = $user_row['que1'];
-								$que2 = $user_row['que2'];
-								$que3 = $user_row['que3'];
-								$que4 = $user_row['que4'];
-								$que5 = $user_row['que5'];
+							    if($query_num_rows == 1 ){
+								    $user_row = mysql_fetch_assoc($query_run);
+								    $que1 = $user_row['que1'];
+								    $que2 = $user_row['que2'];
+								    $que3 = $user_row['que3'];
+								    $que4 = $user_row['que4'];
+								    $que5 = $user_row['que5'];
 								
-										echo '<br /><form style="margin-left:33%" "action="'.htmlspecialchars($current_file) .'" method="post"">'
-															.'<p style="color:#ff3700">1.'.$que1.'</p><br />
-																	<input type="radio" name="op1" value="2.00" > Poor </input>
-																	<input type="radio" name="op1" value="4.00" > Satisfactory </input>
-																	<input type="radio" name="op1" value="6.00" > Good </input>
-																	<input type="radio" name="op1" value="8.00" > Very Good </input>
-																	<input type="radio" name="op1" value="10.00" > Excellent </input>
-																	<input type="hidden" name="hidden" value="op1" method="POST" />
-																<br /><br />'
-														   .'<p style="color:#ff3700">2.'.$que2.'</p><br />
-																	<input type="radio" name="op2" value="2" > Poor </input>
-																	<input type="radio" name="op2" value="4" > Satisfactory </input>
-																	<input type="radio" name="op2" value="6" > Good </input>
-																	<input type="radio" name="op2" value="8" > Very Good </input>
-																	<input type="radio" name="op2" value="10" > Excellent </input>
-																	<input type="hidden" name="hidden" value="op2" method="POST" />
-																<br /><br />'
-														   .'<p style="color:#ff3700">3.'.$que3.'</p><br />
-																	<input type="radio" name="op3" value="2" > Poor </input>
-																	<input type="radio" name="op3" value="4" > Satisfactory </input>
-																	<input type="radio" name="op3" value="6" > Good </input>
-																	<input type="radio" name="op3" value="8" > Very Good </input>
-																	<input type="radio" name="op3" value="10" > Excellent </input>
-																	<input type="hidden" name="hidden" value="op3" method="POST" />
-																<br /><br />'
-														   .'<p style="color:#ff3700">4.'.$que4.'</p><br />
-																	<input type="radio" name="op4" value="2" > Poor </input>
-																	<input type="radio" name="op4" value="4" > Satisfactory </input>
-																	<input type="radio" name="op4" value="6" > Good </input>
-																	<input type="radio" name="op4" value="8" > Very Good </input>
-																	<input type="radio" name="op4" value="10" > Excellent </input>
-																	<input type="hidden" name="hidden" value="op4" method="POST" />
-																<br /><br />'
-														   .'<p style="color:#ff3700">5.'.$que5.'</p><br />
-																	<input type="radio" name="op5" value="2" > Poor </input>
-																	<input type="radio" name="op5" value="4" > Satisfactory </input>
-																	<input type="radio" name="op5" value="6" > Good </input>
-																	<input type="radio" name="op5" value="8" > Very Good </input>
-																	<input type="radio" name="op5" value="10" > Excellent </input>
-																	<input type="hidden" name="hidden" value="op5" method="POST" />
-																<br /><br />
-															<input type="submit" value="Submit" />
-													   </form>';
-							}
-						}
-					}
+										    echo '<br /><form style="margin-left:33%" "action="'.htmlspecialchars($current_file) .'" method="post"">'
+															    .'<p style="color:#ff3700">1.'.$que1.'</p><br />
+																	    <input type="radio" name="op1" value="2.00" > Poor </input>
+																	    <input type="radio" name="op1" value="4.00" > Satisfactory </input>
+																	    <input type="radio" name="op1" value="6.00" > Good </input>
+																	    <input type="radio" name="op1" value="8.00" > Very Good </input>
+																	    <input type="radio" name="op1" value="10.00" > Excellent </input>
+																	    <input type="hidden" name="hidden" value="op1" method="POST" />
+																    <br /><br />'
+														       .'<p style="color:#ff3700">2.'.$que2.'</p><br />
+																	    <input type="radio" name="op2" value="2" > Poor </input>
+																	    <input type="radio" name="op2" value="4" > Satisfactory </input>
+																	    <input type="radio" name="op2" value="6" > Good </input>
+																	    <input type="radio" name="op2" value="8" > Very Good </input>
+																	    <input type="radio" name="op2" value="10" > Excellent </input>
+																	    <input type="hidden" name="hidden" value="op2" method="POST" />
+																    <br /><br />'
+														       .'<p style="color:#ff3700">3.'.$que3.'</p><br />
+																	    <input type="radio" name="op3" value="2" > Poor </input>
+																	    <input type="radio" name="op3" value="4" > Satisfactory </input>
+																	    <input type="radio" name="op3" value="6" > Good </input>
+																	    <input type="radio" name="op3" value="8" > Very Good </input>
+																	    <input type="radio" name="op3" value="10" > Excellent </input>
+																	    <input type="hidden" name="hidden" value="op3" method="POST" />
+																    <br /><br />'
+														       .'<p style="color:#ff3700">4.'.$que4.'</p><br />
+																	    <input type="radio" name="op4" value="2" > Poor </input>
+																	    <input type="radio" name="op4" value="4" > Satisfactory </input>
+																	    <input type="radio" name="op4" value="6" > Good </input>
+																	    <input type="radio" name="op4" value="8" > Very Good </input>
+																	    <input type="radio" name="op4" value="10" > Excellent </input>
+																	    <input type="hidden" name="hidden" value="op4" method="POST" />
+																    <br /><br />'
+														       .'<p style="color:#ff3700">5.'.$que5.'</p><br />
+																	    <input type="radio" name="op5" value="2" > Poor </input>
+																	    <input type="radio" name="op5" value="4" > Satisfactory </input>
+																	    <input type="radio" name="op5" value="6" > Good </input>
+																	    <input type="radio" name="op5" value="8" > Very Good </input>
+																	    <input type="radio" name="op5" value="10" > Excellent </input>
+																	    <input type="hidden" name="hidden" value="op5" method="POST" />
+																    <br /><br />
+															    <input type="submit" value="Submit" />
+													       </form>';
+							    }
+						    }
+                        }
+					
 					else{
 						echo '<br /><center>Feedback completed.<br />
 									<a href="feedback.php">Go back</a>
 									</center>';
 					}
-                }    
+                    }
+                    else{
+                        echo '<center><br />Invalid subject.</center>';
+                    }
+                } 
             }
             else{
                 header('Location: index.php');

@@ -11,40 +11,27 @@ function loggedin()
         return false;
 }
 
-//function encrypt( $q ) {
-//    $cryptKey  = 'qJB0rGtIn5UB1xG03efyCp';
-//    $qEncoded  = base64_encode( mcrypt_encrypt( MCRYPT_RIJNDAEL_256, md5( $cryptKey ), $q, MCRYPT_MODE_CBC, md5( md5( $cryptKey ) ) ) );
-//    return( $qEncoded );
-//}
-
-//function decrypt( $q ) {
-//    $cryptKey  = 'qJB0rGtIn5UB1xG03efyCp';
-//    $qDecoded  = rtrim( mcrypt_decrypt( MCRYPT_RIJNDAEL_256, md5( $cryptKey ), base64_decode( $q ), MCRYPT_MODE_CBC, md5( md5( $cryptKey ) ) ), "\0");
-//    return( $qDecoded );
-//}
-    
-function encrypt_decrypt($action, $string) {
-    $output = false;
-
-    $encrypt_method = "AES-256-CBC";
-    $secret_key = 'This is my secret key';
-    $secret_iv = 'This is my secret iv';
-
-    // hash
-    $key = hash('sha256', $secret_key);
-    
-    // iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
-    $iv = substr(hash('sha256', $secret_iv), 0, 16);
-
-    if( $action == 'encrypt' ) {
-        $output = encrypt($string, $encrypt_method, $key, 0, $iv);
-        $output = base64_encode($output);
-    }
-    else if( $action == 'decrypt' ){
-        $output = decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
-    }
-
-    return $output;
+function encode($text){
+    //Encoding
+    global $key;
+    $key = pack('H*', "bceffbaa");
+    global $iv_size; 
+    $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+    $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+    $ciphertext = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key,$text, MCRYPT_MODE_CBC, $iv);
+    $ciphertext = $iv . $ciphertext;
+    $ciphertext_base64 = base64_encode($ciphertext);
+    $encoded = rtrim(strtr(base64_encode($ciphertext_base64), '+/', '-_'), '=');
+    return $encoded;
 }
-
+function decode($text){
+    //Decoding
+    global $iv_size, $key;
+    $decoded = base64_decode(str_pad(strtr($text, '-_', '+/'), strlen($text) % 4, '=', STR_PAD_RIGHT));
+    $ciphertext_dec = base64_decode($decoded);
+    $iv_dec = substr($ciphertext_dec, 0, $iv_size);
+    $ciphertext_dec = substr($ciphertext_dec, $iv_size);
+    $plaintext_dec = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key,$ciphertext_dec, MCRYPT_MODE_CBC, $iv_dec);
+    return $plaintext_dec;
+}
 ?>

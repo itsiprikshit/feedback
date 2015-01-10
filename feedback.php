@@ -9,7 +9,8 @@
     </head>
     <div id="container">
         <?php 
-            if(!loggedin()){
+
+        if(!loggedin()){
                 header('Location: index.php');
             }
             elseif(isset($_SESSION['student_id'])){
@@ -64,15 +65,16 @@
                                     $user_row_course = mysql_fetch_assoc($query_run_course);
                                     
                                     if($user_row_course["c{$c_value}"] == 0) {
-                                        //$c_value_enc = encrypt_decrypt('encrypt', $c_value);
-                                        //$c_id_enc = encrypt_decrypt('encrypt', $c_id);
                                         
-                                        //echo '<center><form action="evaluate.php" method="GET">
-                                        //          <input type="hidden" name="c_id" value="'.$c_id.'" method="GET" />
-                                        //          <input type="hidden" name="c_value" value="'.$c_value.'" method="GET" /> 
+                                        //echo '<center><form action="evaluate.php" method="POST">
+                                        //          <input type="hidden" name="c" value="'.$c_value.'" />
+                                        //          <input type="hidden" name="c_id" value="'.$c_id.'" /> 
                                         //          <input type="submit" value="Submit" />
                                         //      </center>';
-                                        echo '<center><a href="evaluate.php?c='.$c_value.'&c_id='.$c_id.'">Fill feedback</a></center>';
+                                        $c_value_enc = rtrim(strtr(base64_encode($c_value), '+/', '-_'), '=');
+                                        $c_id_enc = rtrim(strtr(base64_encode($c_id), '+/', '-_'), '=');
+                                        
+                                        echo '<center><a href="evaluate.php?c='.$c_value_enc.'&c_id='.$c_id_enc.'">Fill feedback</a></center>';
                                     }
                                     else{
                                         echo '<center><a href=""><span style="color:red;">Feedback Filled</span></a></center>';

@@ -43,7 +43,7 @@
                                 $email_err = 'Invalid e-mail format.';
                             else
                             {
-                                if($r_no > 15000)
+                                if($r_no > 15000 || $r_no < 10000)
                                     $r_no_err = 'Invalid Roll no.';
                                 else
                                 {
